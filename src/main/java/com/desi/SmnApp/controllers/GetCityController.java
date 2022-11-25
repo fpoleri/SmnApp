@@ -20,15 +20,6 @@ public class GetCityController {
 		super();
 		this.cityService = cityService;
 	}
-	
-	/*
-    @GetMapping
-    public String preparaForm(Model modelo) {
-    	CiudadesBuscarForm form =  new CiudadesBuscarForm();
-//    	 form.setProvincias(servicioProvincia.getAll());    //  en lugar de esto hacemos @ModelAttribute("allProvincias")
-       modelo.addAttribute("formBean",form);
-       return "getCity";
-    }*/
     
     public List<City> getAllCities() {
         return this.cityService.getAll();
