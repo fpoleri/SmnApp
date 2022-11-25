@@ -1,5 +1,8 @@
 package com.desi.SmnApp.services;
 
-public class ExtendedForecastImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class ExtendedForecastImpl implements IExtendedForecast {
 
 }
