@@ -13,7 +13,7 @@ public class ExtendedForecast {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	private Date date;
 	
@@ -30,7 +30,7 @@ public class ExtendedForecast {
 		super();
 	}
 
-	public ExtendedForecast(int id, Date date, int rainProbability, int predictedRain, String description, City city) {
+	public ExtendedForecast(Long id, Date date, int rainProbability, int predictedRain, String description, City city) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -40,11 +40,11 @@ public class ExtendedForecast {
 		this.city = city;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
