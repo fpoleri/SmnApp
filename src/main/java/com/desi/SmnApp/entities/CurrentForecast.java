@@ -11,7 +11,7 @@ public class CurrentForecast {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	private int temp;
 	
@@ -27,7 +27,7 @@ public class CurrentForecast {
 		super();
 	}
 
-	public CurrentForecast(int id, int temp, int humidity, City city, WeatherStatus weatherStatus) {
+	public CurrentForecast(Long id, int temp, int humidity, City city, WeatherStatus weatherStatus) {
 		super();
 		this.id = id;
 		this.temp = temp;
@@ -36,11 +36,11 @@ public class CurrentForecast {
 		this.weatherStatus = weatherStatus;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
