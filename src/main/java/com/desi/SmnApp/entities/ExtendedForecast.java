@@ -22,18 +22,22 @@ public class ExtendedForecast {
 	private int predictedRain;
 		
 	private String description;
+	
+	@ManyToOne
+	private City city;
 
 	public ExtendedForecast() {
 		super();
 	}
 
-	public ExtendedForecast(int id, Date date, int rainProbability, int predictedRain, String description) {
+	public ExtendedForecast(int id, Date date, int rainProbability, int predictedRain, String description, City city) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.rainProbability = rainProbability;
 		this.predictedRain = predictedRain;
 		this.description = description;
+		this.city = city;
 	}
 
 	public int getId() {
@@ -74,5 +78,13 @@ public class ExtendedForecast {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 }

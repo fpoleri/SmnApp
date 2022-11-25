@@ -18,19 +18,23 @@ public class CurrentForecast {
 	private int humidity;
 	
 	@OneToOne
+	private City city;
+	
+	@OneToOne
 	private WeatherStatus weatherStatus;
 
 	public CurrentForecast() {
 		super();
 	}
 
-	public CurrentForecast(int id, int temp, int humidity, WeatherStatus weatherStatus) {
+	public CurrentForecast(int id, int temp, int humidity, City city, WeatherStatus weatherStatus) {
 		super();
 		this.id = id;
 		this.temp = temp;
 		this.humidity = humidity;
+		this.city = city;
 		this.weatherStatus = weatherStatus;
-	} 
+	}
 
 	public int getId() {
 		return id;
@@ -54,6 +58,14 @@ public class CurrentForecast {
 
 	public void setHumidity(int humidity) {
 		this.humidity = humidity;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public WeatherStatus getWeatherStatus() {
