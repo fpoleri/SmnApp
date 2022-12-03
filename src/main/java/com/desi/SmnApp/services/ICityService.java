@@ -8,4 +8,5 @@ public interface ICityService {
 	
 	List<City> getAll();
 
+	City getCityById(Long idCity) ;
 }

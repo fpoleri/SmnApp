@@ -8,5 +8,5 @@ import com.desi.SmnApp.entities.ExtendedForecast;
 
 @Repository
 public interface IExtendedForecastRepository extends JpaRepository<ExtendedForecast, Long> {
-
+	
 }
