@@ -4,13 +4,20 @@ import java.sql.Date;
 
 import com.desi.SmnApp.entities.ExtendedForecast;
 
+import net.bytebuddy.utility.nullability.NeverNull;
+
 public class ExtendedForecastForm {
-	
+	@NeverNull
 	private Long id;
+	@NeverNull
 	private Long idCity;
+	@NeverNull
 	private Date selectedDate;
+	@NeverNull
 	private int rainProbability;
+	@NeverNull
 	private int predictedRain;
+	@NeverNull
 	private String description;
 	
 
