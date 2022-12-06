@@ -14,15 +14,10 @@ public class ExtendedForecast {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	private Date date;
-	
 	private int rainProbability;
-	
 	private int predictedRain;
-		
 	private String description;
-	
 	@ManyToOne
 	private City city;
 

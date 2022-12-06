@@ -1,7 +1,9 @@
 package com.desi.SmnApp.services;
 
-import org.springframework.stereotype.Service;
+import com.desi.SmnApp.entities.ExtendedForecast;
 
 public interface IExtendedForecast {
+	
+	void createExtendedForecast(ExtendedForecast extendedForecast);
 
 }

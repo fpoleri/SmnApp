@@ -23,4 +23,9 @@ public class CityServiceImpl implements ICityService {
 		return cityRepository.findAll();
 	}
 
+	@Override
+	public City getCityById(Long idCity) {
+		return cityRepository.findById(idCity).get();
+	}
+
 }
