@@ -25,72 +25,61 @@ import com.desi.SmnApp.services.IExtendedForecast;
 public class UpdateExtendedForecastController {
 
 
-	private ICityService cityService;
-	private IExtendedForecast extendedForecastService;
-	
-	@Autowired
-	public UpdateExtendedForecastController(ICityService cityService, IExtendedForecast extendedForecastService) {
-		super();
-		this.cityService = cityService;
-		this.extendedForecastService = extendedForecastService;
-	}
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String configForm(Model model) {
-		ExtendedForecastFormModel form = new ExtendedForecastFormModel();
-		model.addAttribute("formBean", form);
-		return "updateExtendedForecast";
-	}
-	
+    private ICityService cityService;
+    private IExtendedForecast extendedForecastService;
+
+    @Autowired
+    public UpdateExtendedForecastController(ICityService cityService, IExtendedForecast extendedForecastService) {
+        super();
+        this.cityService = cityService;
+        this.extendedForecastService = extendedForecastService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String configForm(Model model) {
+        ExtendedForecastFormModel form = new ExtendedForecastFormModel();
+        model.addAttribute("formBean", form);
+        return "updateExtendedForecast";
+    }
+
     @ModelAttribute("allCities")
     public List<City> getAllCities() {
         return this.cityService.getAll();
     }
-    
-    @ModelAttribute("allExtendedForecastByCity")
-    public List<ExtendedForecast> getExtendedForecast(ExtendedForecastForm  formBean){
-    	return extendedForecastService.getExtendedForecastByCityId(formBean.getIdCity());
-    }
-    
-    @RequestMapping( method=RequestMethod.POST)
-    public String submit( @ModelAttribute("formBean") @Validated  ExtendedForecastForm  formBean,BindingResult result, ModelMap model,@RequestParam String action) throws Exception {
-    	
-    
-    	if(action.equals("Buscar pronóstico")) {
-    		Long cityId = formBean.getIdCity();
-			List<ExtendedForecast> extendedForeacast = extendedForecastService.getExtendedForecastByCityId(cityId);
-			model.addAttribute("allExtendedForecastByCity",extendedForeacast);
-        	return "updateExtendedForecast";
-    	}
-    	
-    	/*if(action.equals("Editar")) {
-        	ExtendedForecast e=formBean.toPojo();
-        	e.setCity(cityService.getCityById(formBean.getIdCity()));
-        	e.setId(formBean.getId());
-    	    e = extendedForecastService.getById(2L);
-    		Date d = e.getDate();
-    		int r = e.getRainProbability();
- 			model.addAttribute("selectedDate",d); 
- 			model.addAttribute("rainProbability",r);
-    		return "updateExtendedForecast";
-    	}*/
-    	
-    	if(action.equals("Editar pronóstico")) {
-    		return "redirect:/";
-    	}
 
-    	return "redirect:/";
+    @ModelAttribute("allExtendedForecastByCity")
+    public List<ExtendedForecast> getExtendedForecast(ExtendedForecastForm formBean) {
+        return extendedForecastService.getExtendedForecastByCityId(formBean.getIdCity());
     }
-    
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String submit(@ModelAttribute("formBean") @Validated ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
+
+
+        if (action.equals("Buscar pronóstico")) {
+            Long cityId = formBean.getIdCity();
+            List<ExtendedForecast> extendedForeacast = extendedForecastService.getExtendedForecastByCityId(cityId);
+            model.addAttribute("allExtendedForecastByCity", extendedForeacast);
+            return "updateExtendedForecast";
+        }
+
+        if (action.equals("Editar pronóstico")) {
+            ExtendedForecast e = formBean.toPojo();
+            e.setCity(cityService.getCityById(formBean.getIdCity()));
+            extendedForecastService.createExtendedForecast(e);
+            model.addAttribute("formBean", formBean);
+            return "updateExtendedForecast";
+        }
+
+        return "redirect:/";
+    }
+
     @RequestMapping(path = "/getForUpdate/{id}", method = RequestMethod.GET)
-	public String getForUpdateById(Model model, @PathVariable("id") Long id) 
-	{
-    	
-    	ExtendedForecast extendedForecast = extendedForecastService.getById(id);
-    	ExtendedForecastForm e = new ExtendedForecastForm(extendedForecast);
-    	model.addAttribute("formBean", e);
-    	
-    	return "updateExtendedForecast";
-	}
+    public String getForUpdateById(Model model, @PathVariable("id") Long id) {
+        ExtendedForecast extendedForecast = extendedForecastService.getById(id);
+        ExtendedForecastForm formBean = new ExtendedForecastForm(extendedForecast);
+        model.addAttribute("formBean", formBean);
+        return "updateExtendedForecast";
+    }
 
 }
