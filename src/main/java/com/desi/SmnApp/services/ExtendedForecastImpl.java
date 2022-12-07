@@ -1,5 +1,8 @@
 package com.desi.SmnApp.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,21 @@ public class ExtendedForecastImpl implements IExtendedForecast {
 	@Override
 	public void createExtendedForecast(ExtendedForecast extendedForecast) {
 		extendedForecastRepository.save(extendedForecast);
+	}
+	
+	@Override
+	public void updateExtendedForecast(ExtendedForecast extendedForecast) {
+		extendedForecastRepository.save(extendedForecast);
+	}
+
+	@Override
+	public List<ExtendedForecast> getExtendedForecastByCityId(Long cityId) {
+		return extendedForecastRepository.findByCityId(cityId);
+	}
+
+	@Override
+	public ExtendedForecast getById(Long extendedForecastId) {
+		return extendedForecastRepository.findById(extendedForecastId).get();
 	}
 
 }

@@ -3,7 +3,7 @@ package com.desi.SmnApp.controllers.extendedForecast;
 import java.sql.Date;
 
 
-public class CreateExtendedForecastForm {
+public class ExtendedForecastFormModel {
 	private String name;
 	private Long idCity;
 	private Date selectedDate;

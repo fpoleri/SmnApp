@@ -34,7 +34,7 @@ public class CreateExtendedForecastController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String configForm(Model model) {
-		CreateExtendedForecastForm form = new CreateExtendedForecastForm();
+		ExtendedForecastFormModel form = new ExtendedForecastFormModel();
 		model.addAttribute("formBean", form);
 		return "createExtendedForecast";
 	}
