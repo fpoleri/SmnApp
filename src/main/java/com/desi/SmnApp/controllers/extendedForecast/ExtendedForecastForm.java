@@ -12,6 +12,7 @@ public class ExtendedForecastForm {
     @NotNull(message = "Debes seleccionar una ciudad")
     private Long idCity;
     @NotNull(message = "La fecha no puede ser nula")
+    @NotEmpty(message = "Selecciona una fecha")
     private Date date;
     @NotNull(message = "Debes completar el campo probabilidad de lluvias")
     private int rainProbability;

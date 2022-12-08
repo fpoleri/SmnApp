@@ -37,10 +37,6 @@ public class CreateExtendedForecastController {
     @RequestMapping(method = RequestMethod.GET)
     public String configForm(Model model) {
         ExtendedForecastFormModel form = new ExtendedForecastFormModel();
-
-        Date today = new Date();
-        java.sql.Date tomorrow = new java.sql.Date(today.getYear(), today.getMonth(), today.getDate());
-        form.setDate(tomorrow);
         model.addAttribute("formBean", form);
         return "createExtendedForecast";
     }
@@ -51,7 +47,7 @@ public class CreateExtendedForecastController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@ModelAttribute("formBean") @Validated ExtendedForecastForm formBean, BindingResult result, ModelMap modelo, @RequestParam String action) throws Exception {
+    public String submit(@ModelAttribute("formBean") @Validated ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
 
         if (extendedForecastService.doesExtendedForescastExists(formBean.getIdCity(), formBean.getDate())) {
             //ObjectError error = new ObjectError("ExtendedForecastForm", "bbbb");
@@ -60,7 +56,7 @@ public class CreateExtendedForecastController {
         }
 
         if (result.hasErrors()) {
-            modelo.addAttribute("formBean", formBean);
+            model.addAttribute("formBean", formBean);
             return "createExtendedForecast";
         }
         ExtendedForecast e = formBean.toPojo();
