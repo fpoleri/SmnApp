@@ -5,74 +5,84 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.sql.Date;
 
 @Entity
 public class CurrentForecast {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private int temp;
-	
-	private int humidity;
-	
-	@OneToOne
-	private City city;
-	
-	@OneToOne
-	private WeatherStatus weatherStatus;
 
-	public CurrentForecast() {
-		super();
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public CurrentForecast(Long id, int temp, int humidity, City city, WeatherStatus weatherStatus) {
-		super();
-		this.id = id;
-		this.temp = temp;
-		this.humidity = humidity;
-		this.city = city;
-		this.weatherStatus = weatherStatus;
-	}
+    private int temp;
 
-	public Long getId() {
-		return id;
-	}
+    private int humidity;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Date date;
+    @OneToOne
+    private City city;
 
-	public int getTemp() {
-		return temp;
-	}
+    @OneToOne
+    private WeatherStatus weatherStatus;
 
-	public void setTemp(int temp) {
-		this.temp = temp;
-	}
+    public CurrentForecast() {
+        super();
+    }
 
-	public int getHumidity() {
-		return humidity;
-	}
+    public CurrentForecast(Long id, int temp, int humidity, Date date, City city, WeatherStatus weatherStatus) {
+        this.id = id;
+        this.temp = temp;
+        this.humidity = humidity;
+        this.date = date;
+        this.city = city;
+        this.weatherStatus = weatherStatus;
+    }
 
-	public void setHumidity(int humidity) {
-		this.humidity = humidity;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public City getCity() {
-		return city;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCity(City city) {
-		this.city = city;
-	}
+    public int getTemp() {
+        return temp;
+    }
 
-	public WeatherStatus getWeatherStatus() {
-		return weatherStatus;
-	}
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
 
-	public void setWeatherStatus(WeatherStatus weatherStatus) {
-		this.weatherStatus = weatherStatus;
-	}
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public WeatherStatus getWeatherStatus() {
+        return weatherStatus;
+    }
+
+    public void setWeatherStatus(WeatherStatus weatherStatus) {
+        this.weatherStatus = weatherStatus;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

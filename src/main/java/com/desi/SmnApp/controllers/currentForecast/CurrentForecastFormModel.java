@@ -1,74 +1,80 @@
 package com.desi.SmnApp.controllers.currentForecast;
 
 
-
 import com.desi.SmnApp.entities.City;
 import com.desi.SmnApp.entities.WeatherStatus;
 
+import java.sql.Date;
+
 public class CurrentForecastFormModel {
-   private Long id;
-	
-	private int temp;
-	
-	private int humidity;
-	
-	
-	private Long idCity;
-	
+    private Long id;
 
-	private Long idWeatherStatus;
+    private int temp;
+
+    private int humidity;
+
+    private Date date;
+
+    private Long idCity;
 
 
-	public Long getId() {
-		return id;
-	}
+    private Long idWeatherStatus;
 
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
 
-	public int getTemp() {
-		return temp;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 
-	public void setTemp(int temp) {
-		this.temp = temp;
-	}
+    public int getTemp() {
+        return temp;
+    }
 
 
-	public int getHumidity() {
-		return humidity;
-	}
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
 
 
-	public void setHumidity(int humidity) {
-		this.humidity = humidity;
-	}
+    public int getHumidity() {
+        return humidity;
+    }
 
 
-	public Long getIdCity() {
-		return idCity;
-	}
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
 
 
-	public void setIdCity(Long idCity) {
-		this.idCity = idCity;
-	}
+    public Long getIdCity() {
+        return idCity;
+    }
 
 
-	public Long getIdWeatherStatus() {
-		return idWeatherStatus;
-	}
+    public void setIdCity(Long idCity) {
+        this.idCity = idCity;
+    }
 
 
-	public void setIdWeatherStatus(Long idWeatherStatus) {
-		this.idWeatherStatus = idWeatherStatus;
-	}
+    public Long getIdWeatherStatus() {
+        return idWeatherStatus;
+    }
 
 
+    public void setIdWeatherStatus(Long idWeatherStatus) {
+        this.idWeatherStatus = idWeatherStatus;
+    }
 
-	
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

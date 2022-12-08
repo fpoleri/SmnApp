@@ -3,6 +3,7 @@ package com.desi.SmnApp.controllers.currentForecast;
 import java.util.Date;
 import java.util.List;
 
+import com.desi.SmnApp.services.IWeatherStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,38 +31,44 @@ import com.desi.SmnApp.services.ICurrentForecast;
 @RequestMapping("/createCurrentForecast")
 public class CreateCurrentForecastController {
 
-	private ICityService cityService;
-	private ICurrentForecast currentForecastService;
-	
-	@Autowired
-	public CreateCurrentForecastController(ICityService cityService, ICurrentForecast currentForecastService) {
-		super();
-		this.cityService = cityService;
-		this.currentForecastService = currentForecastService;
-	}
-	
-	 @ModelAttribute("allCities")
-	    public List<City> getAllCities() {
-	        return this.cityService.getAll();
-	    }
-	
-	 @RequestMapping(method = RequestMethod.GET)
-	    public String configForm(Model model) {
-	        CurrentForecastFormModel form = new CurrentForecastFormModel();
+    private ICityService cityService;
 
-	
-	        model.addAttribute("formBean", form);
-	        return "createCurrentForecast";
-	    }
-	 @RequestMapping(method = RequestMethod.POST)
-	    public String submit(@ModelAttribute("formBean") @Validated CurrentForecastForm formBean, BindingResult result, ModelMap modelo, @RequestParam String action) throws Exception {
+    private IWeatherStatusService weatherStatusService;
+    private ICurrentForecast currentForecastService;
 
-	       
-	        CurrentForecast e = formBean.toPojo();
-	        e.setCity(cityService.getCityById(formBean.getIdCity()));
-	        WeatherStatus w = new WeatherStatus(1L,"nublado");
-	        e.setWeatherStatus(w);
-	        currentForecastService.createCurrentForecast(e);
-	        return "redirect:/";
-	    }
+    @Autowired
+    public CreateCurrentForecastController(ICityService cityService, ICurrentForecast currentForecastService, IWeatherStatusService weatherStatusService) {
+        this.cityService = cityService;
+        this.currentForecastService = currentForecastService;
+        this.weatherStatusService = weatherStatusService;
+    }
+
+    @ModelAttribute("allCities")
+    public List<City> getAllCities() {
+        return this.cityService.getAll();
+    }
+
+    @ModelAttribute("allWeatherStatus")
+    public List<WeatherStatus> getAllWeatherStatus() {
+        return this.weatherStatusService.getAll();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String configForm(Model model) {
+        CurrentForecastFormModel form = new CurrentForecastFormModel();
+        Date today = new Date();
+        java.sql.Date todaySql = new java.sql.Date(today.getYear(), today.getMonth(), today.getDate());
+        form.setDate(todaySql);
+        model.addAttribute("formBean", form);
+        return "createCurrentForecast";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String submit(@ModelAttribute("formBean") @Validated CurrentForecastForm formBean, BindingResult result, ModelMap modelo, @RequestParam String action) throws Exception {
+        CurrentForecast e = formBean.toPojo();
+        e.setCity(cityService.getCityById(formBean.getIdCity()));
+        e.setWeatherStatus(weatherStatusService.getWeatherStatusById(formBean.getIdWeatherStatus()));
+        currentForecastService.createCurrentForecast(e);
+        return "redirect:/";
+    }
 }
