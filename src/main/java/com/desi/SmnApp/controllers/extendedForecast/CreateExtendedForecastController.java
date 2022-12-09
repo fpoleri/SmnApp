@@ -20,6 +20,8 @@ import com.desi.SmnApp.entities.ExtendedForecast;
 import com.desi.SmnApp.services.ICityService;
 import com.desi.SmnApp.services.IExtendedForecast;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/createExtendedForecast")
 public class CreateExtendedForecastController {
@@ -47,22 +49,28 @@ public class CreateExtendedForecastController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@ModelAttribute("formBean") @Validated ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
+    public String submit(@ModelAttribute("formBean") @Valid ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
 
         if (extendedForecastService.doesExtendedForescastExists(formBean.getIdCity(), formBean.getDate())) {
             //ObjectError error = new ObjectError("ExtendedForecastForm", "bbbb");
             FieldError fieldError = new FieldError("formBean", "aaaa", "bbbb");
             result.addError(fieldError);
+            return "createExtendedForecast";
         }
 
         if (result.hasErrors()) {
             model.addAttribute("formBean", formBean);
             return "createExtendedForecast";
         }
+
+        if (action.equals("Ir al menú")) {
+            return "redirect:/";
+        }
+
         ExtendedForecast e = formBean.toPojo();
         e.setCity(cityService.getCityById(formBean.getIdCity()));
         extendedForecastService.createExtendedForecast(e);
-        return "redirect:/createExtendedForecast";
+        return "redirect:/";
     }
 
 }

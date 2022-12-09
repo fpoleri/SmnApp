@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import com.desi.SmnApp.entities.CurrentForecast;
 import com.desi.SmnApp.repositories.ICurrentForecastRespository;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.Objects;
+
 
 @Service
 public class CurrentForecastImpl implements ICurrentForecast {
@@ -31,13 +35,28 @@ public class CurrentForecastImpl implements ICurrentForecast {
     }
 
     @Override
-    public CurrentForecast getCurrentForecastByCityId(Long cityId) {
-        return currentForecastRepository.findByCityId(cityId);
+    public CurrentForecast getCurrentForecastByCityId(Long idCity) {
+        return currentForecastRepository.findByCityId(idCity);
     }
 
     @Override
     public CurrentForecast getById(Long currentForecastId) {
         return currentForecastRepository.findById(currentForecastId).get();
+    }
+
+    @Override
+    public List<CurrentForecast> getAll() {
+        return currentForecastRepository.findAll();
+    }
+
+    @Override
+    public List<CurrentForecast> getByDate() {
+        return currentForecastRepository.findByDate();
+    }
+
+    @Override
+    public Boolean doesExtendedForescastExists(Long cityId, Date date) {
+        return Objects.nonNull(currentForecastRepository.findByCityIdAndDate(cityId, date));
     }
 
 

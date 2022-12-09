@@ -8,16 +8,10 @@ import java.sql.Date;
 
 public class CurrentForecastFormModel {
     private Long id;
-
     private int temp;
-
     private int humidity;
-
     private Date date;
-
     private Long idCity;
-
-
     private Long idWeatherStatus;
 
 
