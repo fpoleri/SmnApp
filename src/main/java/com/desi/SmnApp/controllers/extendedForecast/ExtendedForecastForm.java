@@ -2,8 +2,7 @@ package com.desi.SmnApp.controllers.extendedForecast;
 
 import java.sql.Date;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 import com.desi.SmnApp.entities.ExtendedForecast;
 
@@ -12,13 +11,15 @@ public class ExtendedForecastForm {
     @NotNull(message = "Debes seleccionar una ciudad")
     private Long idCity;
     @NotNull(message = "La fecha no puede ser nula")
-    @NotEmpty(message = "Selecciona una fecha")
     private Date date;
     @NotNull(message = "Debes completar el campo probabilidad de lluvias")
+    @Min(0)
     private int rainProbability;
     @NotNull(message = "Debes completa el campo lluvias previstas")
+    @Min(0)
     private int predictedRain;
     @NotEmpty(message = "La descripción es obligatoria")
+    @Size(min = 1, max = 500)
     private String description;
 
 

@@ -22,11 +22,13 @@
 
 <form th:action="@{/updateExtendedForecast}" th:object="${formBean}" method="post">
     <input type="hidden" id="id" th:field="*{id}">
+    <input type="hidden" th:field="*{date}">
+
     <h1>Editar pronóstico extendido</h1>
 
     <div class="form-group">
         <label>Seleccionar ciudad</label>
-        <select th:field="*{idCity}">
+        <select required th:field="*{idCity}">
             <option th:value="null">Seleccione una opción</option>
             <option th:each="c : ${allCities}"
                     th:value="${c.id}"
@@ -55,7 +57,6 @@
                 <td th:text="${e.description}"></td>
                 <td><a th:href="@{/updateExtendedForecast/getForUpdate/{id}(id=${e.id})}"
                        class="btn btn-primary">editar</a></td>
-
             </tr>
             </tbody>
         </table>
@@ -64,30 +65,32 @@
 
     <div class="form-group">
         <label for="date">Fecha a pronosticar</label>
-        <input type="date" disabled class="form-control" th:value="date" id="date"
+        <input disabled type="date"  class="form-control" th:value="date" id="date"
                th:field="*{date}">
     </div>
 
     </div>
     <div class="form-group">
         <label for="rainProbability">Porcentaje de probabilidad de lluvias</label>
-        <input type="number" class="form-control" th:value="rainProbability" id="rainProbability"
+        <input type="number" min="0" class="form-control" th:value="rainProbability" id="rainProbability"
                th:field="*{rainProbability}">
     </div>
 
     <div class="form-group">
         <label for="predictedRain">Cantidad de lluvia prevista en mm</label>
-        <input type="number" class="form-control" th:value="predictedRain" id="predictedRain"
+        <input type="number" min="0" class="form-control" th:value="predictedRain" id="predictedRain"
                th:field="*{predictedRain}">
     </div>
 
     <div class="form-group">
         <label for="description">Descripción del pronóstico</label>
-        <textarea class="form-control" th:value="description" id="description" rows="3"
+        <textarea min="1" max="500" class="form-control" th:value="description" id="description" rows="3"
                   th:field="*{description}"></textarea>
     </div>
 
     <input type="submit" class="btn btn-primary" name="action" value="Editar pronóstico"/>
+    <input type="submit" class="btn btn-primary" name="action" value="Ir al menú"/>
+
 </form>
 </body>
 </html>	

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +19,8 @@ import com.desi.SmnApp.entities.ExtendedForecast;
 import com.desi.SmnApp.services.ICityService;
 import com.desi.SmnApp.services.IExtendedForecast;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/updateExtendedForecast")
 public class UpdateExtendedForecastController {
@@ -30,7 +31,6 @@ public class UpdateExtendedForecastController {
 
     @Autowired
     public UpdateExtendedForecastController(ICityService cityService, IExtendedForecast extendedForecastService) {
-        super();
         this.cityService = cityService;
         this.extendedForecastService = extendedForecastService;
     }
@@ -38,6 +38,9 @@ public class UpdateExtendedForecastController {
     @RequestMapping(method = RequestMethod.GET)
     public String configForm(Model model) {
         ExtendedForecastFormModel form = new ExtendedForecastFormModel();
+        java.util.Date today = new java.util.Date();
+        java.sql.Date todaySql = new java.sql.Date(today.getYear(), today.getMonth(), today.getDate());
+        form.setDate(todaySql);
         model.addAttribute("formBean", form);
         return "updateExtendedForecast";
     }
@@ -53,7 +56,7 @@ public class UpdateExtendedForecastController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@ModelAttribute("formBean") @Validated ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
+    public String submit(@ModelAttribute("formBean") @Valid ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
 
 
         if (action.equals("Buscar pronóstico")) {
@@ -64,11 +67,16 @@ public class UpdateExtendedForecastController {
         }
 
         if (action.equals("Editar pronóstico")) {
-            ExtendedForecast e = formBean.toPojo();
-            e.setCity(cityService.getCityById(formBean.getIdCity()));
-            extendedForecastService.createExtendedForecast(e);
-            model.addAttribute("formBean", formBean);
+            Long cityId = formBean.getIdCity();
+            if (extendedForecastService.getExtendedForecastByCityId(cityId).size() > 0) {
+                ExtendedForecast e = formBean.toPojo();
+                e.setCity(cityService.getCityById(formBean.getIdCity()));
+                extendedForecastService.createExtendedForecast(e);
+                model.addAttribute("formBean", formBean);
+                return "redirect:/";
+            }
             return "updateExtendedForecast";
+
         }
 
         return "redirect:/";

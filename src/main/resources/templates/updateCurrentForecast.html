@@ -21,14 +21,45 @@
 
 
 <form th:action="@{/updateCurrentForecast}" th:object="${formBean}" method="post">
-
+    <input type="hidden" id="id" th:field="*{id}">
+    <input type="hidden" id="idCity" th:field="*{idCity}">
+    <input type="hidden" th:field="*{date}">
 
     <h1>Editar pronóstico actual</h1>
 
     <div class="form-group">
-        <label for="exampleFormControlSelect1">Seleccionar ciudad</label>
-        <select th:field="*{idCity}">
-            <option th:value="null">Seleccione una opción</option>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Fecha pronosticada</th>
+                <th scope="col">Temperatura</th>
+                <th scope="col">Humedad</th>
+                <th scope="col">Estado del clima</th>
+                <th scope="col">Editar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${allCurrentForecast}">
+                <td th:text="${c.id}" th:field="*{id}"></td>
+                <td th:text="${c.city.name}"></td>
+                <td th:text="${c.date}"></td>
+                <td th:text="${c.temp}"></td>
+                <td th:text="${c.humidity}"></td>
+                <td th:text="${c.weatherStatus.status}"></td>
+                <td><a th:href="@{/updateCurrentForecast/getForUpdate/{id}(id=${c.id})}"
+                       class="btn btn-primary">editar</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Ciudad seleccionada</label>
+        <select disabled th:field="*{idCity}">
             <option th:each="c : ${allCities}"
                     th:value="${c.id}"
                     th:text="${c.name}"></option>
@@ -37,22 +68,33 @@
 
     <div class="form-group">
         <label for="date">Fecha de hoy</label>
-        <input type="date" disabled class="form-control" th:value="date" id="date"
+        <input disabled type="date" class="form-control" th:value="date" id="date"
                th:field="*{date}">
     </div>
 
     <div class="form-group">
+        <label for="exampleFormControlSelect2">Seleccionar estado de clima</label>
+        <select th:field="*{idWeatherStatus}">
+            <option th:value="null">Seleccione un estado</option>
+            <option th:each="w : ${allWeatherStatus}"
+                    th:value="${w.id}"
+                    th:text="${w.status}"></option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <label for="temp">Temperatura Actual</label>
-        <input type="number" value="null" class="form-control" id="temp" th:field="*{temp}">
+        <input type="number" min="0" value="null" class="form-control" id="temp" th:field="*{temp}">
 
     </div>
 
     <div class="form-group">
         <label for="humidity">Porcentaje de Humedad</label>
-        <input type="number" value="null" class="form-control" id="humidity" th:field="*{humidity}">
+        <input type="number" min="0" value="null" class="form-control" id="humidity" th:field="*{humidity}">
     </div>
 
     <input type="submit" class="btn btn-primary" name="action" value="Registrar Clima"/>
+    <input type="submit" class="btn btn-primary" name="action" value="Ir al menú"/>
 
 
 </form>

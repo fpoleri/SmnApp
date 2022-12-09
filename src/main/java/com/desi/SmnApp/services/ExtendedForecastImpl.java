@@ -46,4 +46,5 @@ public class ExtendedForecastImpl implements IExtendedForecast {
         return Objects.nonNull(extendedForecastRepository.findByCityIdAndDate(cityId, date));
     }
 
+
 }

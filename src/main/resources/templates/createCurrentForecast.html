@@ -22,12 +22,13 @@
 
 <form th:action="@{/createCurrentForecast}" th:object="${formBean}" method="post">
 
+    <input type="hidden" th:field="*{date}">
 
     <h1>Crear pronóstico actual</h1>
 
     <div class="form-group">
         <label for="exampleFormControlSelect1">Seleccionar ciudad</label>
-        <select th:field="*{idCity}">
+        <select required th:field="*{idCity}">
             <option th:value="null">Seleccione una opción</option>
             <option th:each="c : ${allCities}"
                     th:value="${c.id}"
@@ -37,13 +38,13 @@
 
     <div class="form-group">
         <label for="date">Fecha de hoy</label>
-        <input type="date" disabled class="form-control" th:value="date" id="date"
+        <input disabled type="date" class="form-control" th:value="date" id="date"
                th:field="*{date}">
     </div>
 
     <div class="form-group">
         <label for="exampleFormControlSelect2">Seleccionar estado de clima</label>
-        <select th:field="*{idWeatherStatus}">
+        <select required th:field="*{idWeatherStatus}">
             <option th:value="null">Seleccione un estado</option>
             <option th:each="w : ${allWeatherStatus}"
                     th:value="${w.id}"
@@ -52,16 +53,17 @@
     </div>
     <div class="form-group">
         <label for="temp">Temperatura Actual</label>
-        <input type="number" value="null" class="form-control" id="temp" th:field="*{temp}">
+        <input required min="0" type="number" value="null" class="form-control" id="temp" th:field="*{temp}">
 
     </div>
 
     <div class="form-group">
         <label for="humidity">Porcentaje de Humedad</label>
-        <input type="number" value="null" class="form-control" id="humidity" th:field="*{humidity}">
+        <input required min="0" type="number" value="null" class="form-control" id="humidity" th:field="*{humidity}">
     </div>
 
     <input type="submit" class="btn btn-primary" name="action" value="Registrar Clima"/>
+    <input type="submit" class="btn btn-primary" name="action" value="Ir al menú"/>
 
 
 </form>

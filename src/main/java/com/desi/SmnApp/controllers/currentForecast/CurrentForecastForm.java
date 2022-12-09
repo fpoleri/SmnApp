@@ -1,25 +1,23 @@
 package com.desi.SmnApp.controllers.currentForecast;
 
-import com.desi.SmnApp.entities.City;
 import com.desi.SmnApp.entities.CurrentForecast;
-import com.desi.SmnApp.entities.WeatherStatus;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 public class CurrentForecastForm {
 
     private Long id;
-
+    @Min(0)
     private int temp;
-
+    @Min(0)
     private int humidity;
-
     @NotNull(message = "La fecha no puede ser nula")
     private Date date;
     @NotNull(message = "Debes seleccionar una ciudad")
     private Long idCity;
-
     private Long idWeatherStatus;
 
 

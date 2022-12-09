@@ -1,5 +1,6 @@
 package com.desi.SmnApp.services;
 
+import com.desi.SmnApp.entities.CurrentForecast;
 import com.desi.SmnApp.entities.ExtendedForecast;
 
 import java.sql.Date;

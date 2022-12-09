@@ -27,7 +27,7 @@
 
     <div class="form-group">
         <label>Seleccionar ciudad</label>
-        <select th:field="*{idCity}">
+        <select required th:field="*{idCity}">
             <option th:value="null">Seleccione una opción</option>
             <option th:each="c : ${allCities}"
                     th:value="${c.id}"
@@ -38,29 +38,34 @@
     </div>
     <div class="form-group">
         <label for="date">Fecha a pronosticar</label>
-        <input type="date" class="form-control" id="date" th:field="*{date}">
+        <input required type="date" class="form-control" id="date" th:field="*{date}">
         <p th:if="${#fields.hasErrors('date')}" th:errorclass="error" th:errors="*{date}"/>
     </div>
 
     <div class="form-group">
         <label for="rainProbability">Porcentaje de probabilidad de lluvias</label>
-        <input type="number" value="null" class="form-control" id="rainProbability" th:field="*{rainProbability}">
+        <input required min="0" type="number" value="null" class="form-control" id="rainProbability"
+               th:field="*{rainProbability}">
         <p th:if="${#fields.hasErrors('rainProbability')}" th:errorclass="error" th:errors="*{rainProbability}"/>
     </div>
 
     <div class="form-group">
         <label for="predictedRain">Lluvia prevista en mm</label>
-        <input type="number" value="null" class="form-control" id="predictedRain" th:field="*{predictedRain}">
+        <input required min="0" type="number" value="null" class="form-control" id="predictedRain"
+               th:field="*{predictedRain}">
         <p th:if="${#fields.hasErrors('predictedRain')}" th:errorclass="error" th:errors="*{predictedRain}"/>
     </div>
 
     <div class="form-group">
         <label for="description">Descripción del pronóstico</label>
-        <textarea class="form-control" id="description" rows="3" th:field="*{description}"></textarea>
+        <textarea required min="1" max="500" class="form-control" id="description" rows="3"
+                  th:field="*{description}"></textarea>
         <p th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"/>
     </div>
 
     <input type="submit" class="btn btn-primary" name="action" value="Registrar pronóstico"/>
+    <input type="submit" class="btn btn-primary" name="action" value="Ir al menú"/>
+
 </form>
 </body>
 </html>	

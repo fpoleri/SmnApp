@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +48,11 @@ public class UpdateCurrentForecastController {
         return this.weatherStatusService.getAll();
     }
 
+    @ModelAttribute("allCurrentForecast")
+    public List<CurrentForecast> getCurrentForecast() {
+        return currentForecastService.getByDate();
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public String configForm(Model model) {
         CurrentForecastFormModel form = new CurrentForecastFormModel();
@@ -54,26 +60,22 @@ public class UpdateCurrentForecastController {
         java.sql.Date todaySql = new java.sql.Date(today.getYear(), today.getMonth(), today.getDate());
         form.setDate(todaySql);
         model.addAttribute("formBean", form);
-        return "createCurrentForecast";
+        return "updateCurrentForecast";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@ModelAttribute("formBean") @Validated CurrentForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
+    public String submit(@ModelAttribute("formBean") @Valid CurrentForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
 
-        if (action.equals("Buscar pronóstico")) {
-            Long cityId = formBean.getIdCity();
-            CurrentForecast currentForeacast = currentForecastService.getCurrentForecastByCityId(cityId);
-            model.addAttribute("allExtendedForecastByCity", currentForeacast);
-            return "updateExtendedForecast";
-        }
-
-        if (action.equals("Registrar Clima")) {
-            CurrentForecast e = formBean.toPojo();
-            e.setCity(cityService.getCityById(formBean.getIdCity()));
-            e.setWeatherStatus(weatherStatusService.getWeatherStatusById(formBean.getIdWeatherStatus()));
-            currentForecastService.createCurrentForecast(e);
+        if (action.equals("Ir al menú")) {
+            ;
             return "redirect:/";
         }
+
+        CurrentForecast e = formBean.toPojo();
+        e.setCity(cityService.getCityById(formBean.getIdCity()));
+        e.setWeatherStatus(weatherStatusService.getWeatherStatusById(formBean.getIdWeatherStatus()));
+        currentForecastService.createCurrentForecast(e);
+
         return "redirect:/";
     }
 
@@ -82,6 +84,6 @@ public class UpdateCurrentForecastController {
         CurrentForecast currentForecast = currentForecastService.getById(id);
         CurrentForecastForm formBean = new CurrentForecastForm(currentForecast);
         model.addAttribute("formBean", formBean);
-        return "updateExtendedForecast";
+        return "updateCurrentForecast";
     }
 }
