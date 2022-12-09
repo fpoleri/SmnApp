@@ -10,8 +10,6 @@ public interface IExtendedForecast {
 
     void createExtendedForecast(ExtendedForecast extendedForecast);
 
-    void updateExtendedForecast(ExtendedForecast extendedForecast);
-
     List<ExtendedForecast> getExtendedForecastByCityId(Long cityId);
 
     ExtendedForecast getById(Long extendedForecastId);

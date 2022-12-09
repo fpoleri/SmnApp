@@ -10,10 +10,6 @@ public interface ICurrentForecast {
 
     void createCurrentForecast(CurrentForecast currentForecast);
 
-    void updateCurrentForecast(CurrentForecast currentForecast);
-
-    CurrentForecast getCurrentForecastByCityId(Long idCity);
-
     CurrentForecast getById(Long currentForecastId);
 
     List<CurrentForecast> getAll();

@@ -10,22 +10,21 @@ import com.desi.SmnApp.repositories.ICityRepository;
 
 @Service
 public class CityServiceImpl implements ICityService {
-	
-	private ICityRepository cityRepository;
-	
-	@Autowired
-	public CityServiceImpl(ICityRepository cityRepository) {
-		this.cityRepository = cityRepository;
-	}
+    private ICityRepository cityRepository;
 
-	@Override
-	public List<City> getAll() {
-		return cityRepository.findAll();
-	}
+    @Autowired
+    public CityServiceImpl(ICityRepository cityRepository) {
+        this.cityRepository = cityRepository;
+    }
 
-	@Override
-	public City getCityById(Long idCity) {
-		return cityRepository.findById(idCity).get();
-	}
+    @Override
+    public List<City> getAll() {
+        return cityRepository.findAll();
+    }
+
+    @Override
+    public City getCityById(Long idCity) {
+        return cityRepository.findById(idCity).get();
+    }
 
 }

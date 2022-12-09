@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public interface ICurrentForecastRespository extends JpaRepository<CurrentForecast, Long> {
-    CurrentForecast findByCityId(Long idCity);
-
     @Query("SELECT c FROM CurrentForecast c WHERE c.date = CURDATE()")
     List<CurrentForecast> findByDate();
 

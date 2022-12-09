@@ -22,13 +22,10 @@ public class ExtendedForecastForm {
     @Size(min = 1, max = 500)
     private String description;
 
-
     public ExtendedForecastForm() {
-        super();
     }
 
     public ExtendedForecastForm(ExtendedForecast e) {
-        super();
         this.id = e.getId();
         this.date = e.getDate();
         this.rainProbability = e.getRainProbability();

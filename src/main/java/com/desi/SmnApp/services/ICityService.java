@@ -5,8 +5,8 @@ import java.util.List;
 import com.desi.SmnApp.entities.City;
 
 public interface ICityService {
-	
-	List<City> getAll();
 
-	City getCityById(Long idCity) ;
+    List<City> getAll();
+
+    City getCityById(Long idCity);
 }

@@ -30,16 +30,6 @@ public class CurrentForecastImpl implements ICurrentForecast {
     }
 
     @Override
-    public void updateCurrentForecast(CurrentForecast currentForecast) {
-        this.currentForecastRepository.save(currentForecast);
-    }
-
-    @Override
-    public CurrentForecast getCurrentForecastByCityId(Long idCity) {
-        return currentForecastRepository.findByCityId(idCity);
-    }
-
-    @Override
     public CurrentForecast getById(Long currentForecastId) {
         return currentForecastRepository.findById(currentForecastId).get();
     }

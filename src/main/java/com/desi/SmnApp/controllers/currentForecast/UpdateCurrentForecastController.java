@@ -1,11 +1,7 @@
 package com.desi.SmnApp.controllers.currentForecast;
 
-import com.desi.SmnApp.controllers.currentForecast.CurrentForecastForm;
-import com.desi.SmnApp.controllers.currentForecast.CurrentForecastFormModel;
-import com.desi.SmnApp.controllers.extendedForecast.ExtendedForecastForm;
 import com.desi.SmnApp.entities.City;
 import com.desi.SmnApp.entities.CurrentForecast;
-import com.desi.SmnApp.entities.ExtendedForecast;
 import com.desi.SmnApp.entities.WeatherStatus;
 import com.desi.SmnApp.services.ICityService;
 import com.desi.SmnApp.services.ICurrentForecast;
@@ -15,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +23,6 @@ import java.util.List;
 public class UpdateCurrentForecastController {
 
     private ICityService cityService;
-
     private IWeatherStatusService weatherStatusService;
     private ICurrentForecast currentForecastService;
 
@@ -65,17 +60,20 @@ public class UpdateCurrentForecastController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String submit(@ModelAttribute("formBean") @Valid CurrentForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
-
-        if (action.equals("Ir al menú")) {
-            ;
-            return "redirect:/";
+        if (result.hasErrors()) {
+            model.addAttribute("formBean", formBean);
+            return "updateCurrentForecast";
         }
-
-        CurrentForecast e = formBean.toPojo();
-        e.setCity(cityService.getCityById(formBean.getIdCity()));
-        e.setWeatherStatus(weatherStatusService.getWeatherStatusById(formBean.getIdWeatherStatus()));
-        currentForecastService.createCurrentForecast(e);
-
+        try {
+            CurrentForecast e = formBean.toPojo();
+            e.setCity(cityService.getCityById(formBean.getIdCity()));
+            e.setWeatherStatus(weatherStatusService.getWeatherStatusById(formBean.getIdWeatherStatus()));
+            currentForecastService.createCurrentForecast(e);
+        } catch (Exception e) {
+            ObjectError error = new ObjectError("globalError", e.getMessage());
+            result.addError(error);
+            return "updateCurrentForecast";
+        }
         return "redirect:/";
     }
 

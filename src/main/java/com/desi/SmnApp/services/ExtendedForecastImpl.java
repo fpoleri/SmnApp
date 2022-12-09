@@ -27,11 +27,6 @@ public class ExtendedForecastImpl implements IExtendedForecast {
     }
 
     @Override
-    public void updateExtendedForecast(ExtendedForecast extendedForecast) {
-        extendedForecastRepository.save(extendedForecast);
-    }
-
-    @Override
     public List<ExtendedForecast> getExtendedForecastByCityId(Long cityId) {
         return extendedForecastRepository.findByCityId(cityId);
     }
@@ -45,6 +40,5 @@ public class ExtendedForecastImpl implements IExtendedForecast {
     public Boolean doesExtendedForescastExists(Long cityId, Date date) {
         return Objects.nonNull(extendedForecastRepository.findByCityIdAndDate(cityId, date));
     }
-
 
 }

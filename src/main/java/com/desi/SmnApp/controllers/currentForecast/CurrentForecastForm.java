@@ -4,7 +4,6 @@ import com.desi.SmnApp.entities.CurrentForecast;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 
 public class CurrentForecastForm {
@@ -22,7 +21,6 @@ public class CurrentForecastForm {
 
 
     public CurrentForecastForm() {
-        super();
     }
 
     public CurrentForecastForm(CurrentForecast c) {
