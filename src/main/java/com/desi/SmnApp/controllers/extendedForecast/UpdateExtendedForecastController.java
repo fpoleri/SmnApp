@@ -1,6 +1,5 @@
 package com.desi.SmnApp.controllers.extendedForecast;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +24,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/updateExtendedForecast")
 public class UpdateExtendedForecastController {
-
-
     private ICityService cityService;
     private IExtendedForecast extendedForecastService;
 
@@ -58,7 +56,10 @@ public class UpdateExtendedForecastController {
     @RequestMapping(method = RequestMethod.POST)
     public String submit(@ModelAttribute("formBean") @Valid ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
 
-
+        if (result.hasErrors()) {
+            model.addAttribute("formBean", formBean);
+            return "updateExtendedForecast";
+        }
         if (action.equals("Buscar pronóstico")) {
             Long cityId = formBean.getIdCity();
             List<ExtendedForecast> extendedForeacast = extendedForecastService.getExtendedForecastByCityId(cityId);
@@ -69,16 +70,20 @@ public class UpdateExtendedForecastController {
         if (action.equals("Editar pronóstico")) {
             Long cityId = formBean.getIdCity();
             if (extendedForecastService.getExtendedForecastByCityId(cityId).size() > 0) {
-                ExtendedForecast e = formBean.toPojo();
-                e.setCity(cityService.getCityById(formBean.getIdCity()));
-                extendedForecastService.createExtendedForecast(e);
-                model.addAttribute("formBean", formBean);
-                return "redirect:/";
+                try {
+                    ExtendedForecast e = formBean.toPojo();
+                    e.setCity(cityService.getCityById(formBean.getIdCity()));
+                    extendedForecastService.createExtendedForecast(e);
+                    model.addAttribute("formBean", formBean);
+                    return "redirect:/";
+                } catch (Exception e) {
+                    ObjectError error = new ObjectError("globalError", e.getMessage());
+                    result.addError(error);
+                    return "updateExtendedForecast";
+                }
             }
             return "updateExtendedForecast";
-
         }
-
         return "redirect:/";
     }
 

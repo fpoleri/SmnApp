@@ -1,6 +1,5 @@
 package com.desi.SmnApp.controllers.extendedForecast;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,13 +23,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/createExtendedForecast")
 public class CreateExtendedForecastController {
-
     private ICityService cityService;
     private IExtendedForecast extendedForecastService;
 
     @Autowired
     public CreateExtendedForecastController(ICityService cityService, IExtendedForecast extendedForecastService) {
-        super();
         this.cityService = cityService;
         this.extendedForecastService = extendedForecastService;
     }
@@ -51,25 +47,22 @@ public class CreateExtendedForecastController {
     @RequestMapping(method = RequestMethod.POST)
     public String submit(@ModelAttribute("formBean") @Valid ExtendedForecastForm formBean, BindingResult result, ModelMap model, @RequestParam String action) throws Exception {
 
-        if (extendedForecastService.doesExtendedForescastExists(formBean.getIdCity(), formBean.getDate())) {
-            //ObjectError error = new ObjectError("ExtendedForecastForm", "bbbb");
-            FieldError fieldError = new FieldError("formBean", "aaaa", "bbbb");
-            result.addError(fieldError);
-            return "createExtendedForecast";
+        if (!extendedForecastService.doesExtendedForescastExists(formBean.getIdCity(), formBean.getDate())) {
+            try {
+                ExtendedForecast e = formBean.toPojo();
+                e.setCity(cityService.getCityById(formBean.getIdCity()));
+                extendedForecastService.createExtendedForecast(e);
+            } catch (Exception e) {
+                ObjectError error = new ObjectError("globalError", e.getMessage());
+                result.addError(error);
+                return "createExtendedForecast";
+            }
         }
 
         if (result.hasErrors()) {
             model.addAttribute("formBean", formBean);
             return "createExtendedForecast";
         }
-
-        if (action.equals("Ir al menú")) {
-            return "redirect:/";
-        }
-
-        ExtendedForecast e = formBean.toPojo();
-        e.setCity(cityService.getCityById(formBean.getIdCity()));
-        extendedForecastService.createExtendedForecast(e);
         return "redirect:/";
     }
 
